@@ -1,16 +1,14 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for
-from dotenv import load_dotenv
-from models import Question, Answer, SQLAlchemy
-
-load_dotenv()
+from models import db
 
 app = Flask(__name__)
 app.config[
-    'SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@localhost/{os.getenv('DB_NAME')}"
+    'SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+db.init_app(app)
 
-db = SQLAlchemy(app)
+from models import Question, Answer
 
 
 @app.route("/", methods=("GET",))
@@ -52,6 +50,6 @@ def add_answer(question_id):
 
 
 if __name__ == "__main__":
-    # db.drop_all()
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.drop_all()
+        db.create_all()

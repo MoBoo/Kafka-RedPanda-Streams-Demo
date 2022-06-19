@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  smtp4dev:
+    image: rnwood/smtp4dev
+    ports:
+      - "3000:80"
+      - "25:25"
+    networks:
+      - poc_net
+
+  streams:
+    image: stream_app
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SMTP_HOST: ${SMTP_HOST:-smtp4dev}
+      SMTP_PORT: ${SMTP_PORT:-25}
+      BROKER_HOST: ${BROKER_HOST:-broker}
+      BROKER_PORT: ${BROKER_PORT:-9092}
+    networks:
+      - poc_net
+
+networks:
+  poc_net:
+    external: true

@@ -1,14 +1,11 @@
 import smtplib
 import json
 import os
-from dotenv import load_dotenv
 from kafka import KafkaConsumer
 from email.mime.text import MIMEText
 from models import Question
 from sqlalchemy.orm import Session
 from sqlalchemy import select, create_engine
-
-load_dotenv()
 
 EMAIL_FROM = "info@qna.de"
 EMAIL_SUBJECT = "New Reply to Question"
@@ -36,11 +33,12 @@ def fetch_question(question_id, db):
     return db.execute(stmt).one()
 
 
-smtp = smtplib.SMTP("localhost", port=25)
-engine = create_engine(f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@localhost/{os.getenv('DB_NAME')}")
+smtp = smtplib.SMTP(f"{os.getenv('SMTP_HOST')}", port=int(os.getenv('SMTP_PORT')))
+engine = create_engine(
+    f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}")
 db_session = Session(engine)
 
-consumer = KafkaConsumer("qna.public.answer", bootstrap_servers=["localhost:9092"], auto_offset_reset="earliest")
+consumer = KafkaConsumer("qna.public.answer", bootstrap_servers=[f"{os.getenv('BROKER_HOST')}:{os.getenv('BROKER_PORT')}"], auto_offset_reset="earliest")
 for msg in consumer:
     data = json.loads(msg.value.decode())
     question_id = data.get("payload").get("after").get("question_id")
