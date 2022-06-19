@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QnA</title>
+</head>
+<body>
+<h1>{{ question.title }}</h1>
+    <p>{{ question.body }}</p>
+
+    <h3>Answers:</h3>
+    {% if question.answers %}
+        {% for answer in question.answers %}
+            <pre>{{ answer.body }}</pre>
+            <br>
+        {% endfor %}
+    {% else %}
+    <pre>No answers yet. Be the first to answer. :)</pre>
+    {% endif %}
+
+<h2>Your Answer</h2>
+<form method="post" action="/question/{{ question.id }}/answer">
+    <textarea id="answer" name="answer" cols="40" rows="5" required></textarea>
+    <br><br>
+    <input type="submit" value="Submit Answer">
+</form>
+</body>
+</html>

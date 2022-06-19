@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QnA</title>
+</head>
+<body>
+<h1>Questions</h1>
+{% if questions %}
+    {% for question in questions %}
+        <h2>{{ question.title }}</h2>
+        <p>{{ question.body }}</p>
+    {% endfor %}
+{% else %}
+<p>No questions yet. Be the first one to ask. :)</p>
+{% endif %}
+
+<h2>Submit Question</h2>
+<form method="post" action="/question">
+    <label for="email">Email:</label><br>
+    <input id="email" name="email" type="email" placeholder="max.mustermann@example.com" required>
+    <br><br>
+    <label for="title">Title:</label><br>
+    <input id="title" name="title" type="text" placeholder="How do i ..." required>
+    <br><br>
+    <label for="question">Question:</label><br>
+    <textarea id="question" name="question" cols="40" rows="5" placeholder="..." required></textarea>
+    <br><br>
+    <input type="submit" value="Submit Quesiton">
+</form>
+</body>
+</html>

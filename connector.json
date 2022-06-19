@@ -1,0 +1,13 @@
+{
+  "name": "qna-connector",  
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector", 
+    "database.hostname": "postgresql", 
+    "database.port": "5432", 
+    "database.user": "admin", 
+    "database.password": "admin123", 
+    "database.dbname" : "qna", 
+    "database.server.name": "qna", 
+    "table.include.list": "public.question, public.answer" 
+  }
+}
