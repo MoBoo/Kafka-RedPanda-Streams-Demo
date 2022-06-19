@@ -8,5 +8,12 @@ This is done via Change-Data-Capture with Kafka and Kafka Connect and Debezium.
 ![Overview Diagramm](docs/overview.png)
 
 ## Example Images
+### Submitting a question
+![Submit Question](docs/question.png)
+### Submit an answer
+![Submit Answer](docs/answer.png)
+### Get Notified
+![Get Notified](docs/mail.png)
 
 ## Usage
+`start.sh redpanda|kafka`

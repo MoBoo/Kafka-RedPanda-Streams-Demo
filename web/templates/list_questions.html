@@ -8,8 +8,7 @@
 <h1>Questions</h1>
 {% if questions %}
     {% for question in questions %}
-        <h2>{{ question.title }}</h2>
-        <p>{{ question.body }}</p>
+        <h2><a href="/question/{{ question.id }}">{{ question.title }}</a></h2>
     {% endfor %}
 {% else %}
 <p>No questions yet. Be the first one to ask. :)</p>
